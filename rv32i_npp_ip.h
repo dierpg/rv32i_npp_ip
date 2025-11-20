@@ -3,7 +3,7 @@
 #include "ap_int.h"
 #define LOG_CODE_RAM_SIZE 16
 #define CODE_RAM_SIZE     (1<<LOG_CODE_RAM_SIZE)
-#define LOG_DATA_RAM_SIZE 16
+#define LOG_DATA_RAM_SIZE 28
 #define DATA_RAM_SIZE     (1<<LOG_DATA_RAM_SIZE)
 #define LOG_REG_FILE_SIZE  5
 #define NB_REGISTER       (1<<LOG_REG_FILE_SIZE)
