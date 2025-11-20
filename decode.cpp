@@ -42,6 +42,19 @@ static void decode_immediate(
     case OTHER_TYPE:     d_i->imm = 0; break;
   }
 }
+static void decode_floating_point(
+  instruction_t          instruction,
+  decoded_instruction_t *d_i){
+  // Placeholder for future floating-point decoding logic
+  decoded_float_t d_float;
+  d_float.inst_31_20 = (instruction >> 20);
+  d_float.inst_19_15 = (instruction >> 15);
+  d_float.inst_14_12 = (instruction >> 12);
+  d_float.inst_11_7 = (instruction >> 7);
+  d_float.inst_6 = (instruction >> 6);
+  // Future implementation goes here
+}
+
 void decode(
   instruction_t          instruction,
   decoded_instruction_t *d_i){
