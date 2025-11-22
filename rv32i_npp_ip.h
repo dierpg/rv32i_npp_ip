@@ -98,6 +98,8 @@ typedef ap_int<12>                   b_immediate_t;
 typedef ap_int<20>                   u_immediate_t;
 typedef ap_int<20>                   j_immediate_t;
 typedef ap_uint<5>                   opcode_t;
+typedef ap_int<12>                   l_float_t; 
+typedef ap_int<12>                   s_float_t; 
 typedef ap_uint<LOG_REG_FILE_SIZE+1> reg_num_p1_t;
 typedef ap_uint<LOG_REG_FILE_SIZE>   reg_num_t;
 typedef ap_uint<3>                   func3_t;
@@ -130,6 +132,15 @@ typedef struct decoded_immediate_s{
   ap_uint<4>  inst_11_8;
   bit_t       inst_7;
 } decoded_immediate_t;
+typedef struct decode_fp_immediate_s{
+  bit_t       inst_31;
+  ap_uint<6>  inst_30_25;
+  ap_uint<4>  inst_24_21;
+  bit_t       inst_20;
+  ap_uint<8>  inst_19_12;
+  ap_uint<4>  inst_11_8;
+  bit_t       inst_7;
+}decode_fp_immediate_t;
 void rv32i_npp_ip(
   unsigned int  start_pc,
   unsigned int  code_ram[CODE_RAM_SIZE],
