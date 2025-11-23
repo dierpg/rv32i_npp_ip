@@ -85,6 +85,10 @@
 #define SB             0
 #define SH             1
 #define SW             2
+#define FADD           0 
+#define FSUB           1 
+#define FMUL           2
+#define FDIV           3  
 typedef unsigned int                 instruction_t;
 typedef ap_uint<LOG_CODE_RAM_SIZE>   code_address_t;
 typedef ap_uint<LOG_DATA_RAM_SIZE>   w_data_address_t;
