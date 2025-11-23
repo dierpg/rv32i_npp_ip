@@ -32,7 +32,7 @@ static type_t type_10(ap_uint<3> opcl){
     case 0b001: return OTHER_TYPE; //MSUB
     case 0b010: return OTHER_TYPE; //NMSUB
     case 0b011: return OTHER_TYPE; //NMADD
-    case 0b100: return OTHER_TYPE; //OP-FP
+    case 0b100: return R_TYPE; //OP-FP
     case 0b101: return OTHER_TYPE; //RESERVED-0
     case 0b110: return OTHER_TYPE; //CUSTOM-2-RV128
     case 0b111: return OTHER_TYPE; //RV48-1
