@@ -1,6 +1,7 @@
 #ifndef __RV32I_NPP_IP
 #define __RV32I_NPP_IP
 #include "ap_int.h"
+#include <ap_fixed.h>
 #define LOG_CODE_RAM_SIZE 16
 #define CODE_RAM_SIZE     (1<<LOG_CODE_RAM_SIZE)
 #define LOG_DATA_RAM_SIZE 28
@@ -104,15 +105,18 @@ typedef ap_int<20>                   j_immediate_t;
 typedef ap_uint<5>                   opcode_t;
 typedef ap_uint<LOG_REG_FILE_SIZE+1> reg_num_p1_t;
 typedef ap_uint<LOG_REG_FILE_SIZE>   reg_num_t;
+typedef ap_uint<3>                   rm_f_t;
 typedef ap_uint<3>                   func3_t;
 typedef ap_uint<7>                   func7_t;
 typedef ap_uint<1>                   bit_t;
+
 typedef struct decoded_instruction_s{
   opcode_t    opcode;
   reg_num_t   rd;
   func3_t     func3;
   reg_num_t   rs1;
   reg_num_t   rs2;
+  rm_f_t      rm;   
   func7_t     func7;
   type_t      type;
   immediate_t imm;
