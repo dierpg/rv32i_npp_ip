@@ -42,6 +42,19 @@
 #define RESERVED_2     0b11101
 #define CUSTOM_3_RV128 0b11110
 #define RV80           0b11111
+// Rounding Modes
+#define RNE            0b000 // Round to Nearest, ties to Even
+#define RTZ            0b001 // Round towards Zero
+#define RDN            0b010 // Round Down (towards -inf)
+#define RUP            0b011 // Round Up (towards +inf)
+#define RMM            0b100 // Round to Nearest, ties to Max Magnitude
+#define DYN            0b111 // Dynamic rounding mode
+// Rounding exceptions
+#define NV             0b00001 // Invalid Operation
+#define DZ             0b00010 // Divide by Zero
+#define OF             0b00100 // Overflow
+#define UF             0b01000 // Underflow
+#define NX             0b10000 // Inexact
 #define UNDEFINED_TYPE 0
 #define R_TYPE         1
 #define I_TYPE         2
@@ -50,6 +63,11 @@
 #define U_TYPE         5
 #define J_TYPE         6
 #define OTHER_TYPE     7
+// Control and status register instructions
+#define CSRRW          1 // CSR Read and Write
+#define CSRRS          2 // CSR Read and Set
+#define CSRRC          3 // CSR Read and Clear
+// Branch instructions
 #define BEQ            0
 #define BNE            1
 #define BLT            4
@@ -95,6 +113,7 @@ typedef ap_int<20>                   immediate_t;
 typedef ap_int<12>                   i_immediate_t;
 typedef ap_int<12>                   s_immediate_t;
 typedef ap_int<12>                   b_immediate_t;
+typedef ap_int<12>                   csr_t;
 typedef ap_int<20>                   u_immediate_t;
 typedef ap_int<20>                   j_immediate_t;
 typedef ap_uint<5>                   opcode_t;
@@ -103,6 +122,7 @@ typedef ap_uint<LOG_REG_FILE_SIZE>   reg_num_t;
 typedef ap_uint<3>                   func3_t;
 typedef ap_uint<7>                   func7_t;
 typedef ap_uint<1>                   bit_t;
+
 typedef struct decoded_instruction_s{
   opcode_t    opcode;
   reg_num_t   rd;
@@ -119,6 +139,7 @@ typedef struct decoded_instruction_s{
   bit_t       is_op_imm;
   bit_t       is_lui;
   bit_t       is_ret;
+  bit_t       is_csr;
   bit_t       is_r_type;
 } decoded_instruction_t;
 typedef struct decoded_immediate_s{
@@ -130,6 +151,7 @@ typedef struct decoded_immediate_s{
   ap_uint<4>  inst_11_8;
   bit_t       inst_7;
 } decoded_immediate_t;
+
 void rv32i_npp_ip(
   unsigned int  start_pc,
   unsigned int  code_ram[CODE_RAM_SIZE],

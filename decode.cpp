@@ -17,6 +17,7 @@ static void decode_instruction(
   d_i->is_ret     = (instruction == RET);
   d_i->is_lui     = (d_i->opcode == LUI);
   d_i->is_op_imm  = (d_i->opcode == OP_IMM);
+  d_i->is_csr     = (d_i->opcode == SYSTEM);
   d_i->type       = type(d_i->opcode);
   d_i->is_r_type  = (d_i->type   == R_TYPE);
 }

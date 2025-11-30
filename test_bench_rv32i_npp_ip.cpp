@@ -2,7 +2,7 @@
 #include "rv32i_npp_ip.h"
 int          data_ram[DATA_RAM_SIZE];
 unsigned int code_ram[CODE_RAM_SIZE]={
-#include "operacion.hex"
+#include "test_csr.hex"
 };
 int main(){
   unsigned int nbi;

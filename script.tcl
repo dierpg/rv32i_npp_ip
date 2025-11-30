@@ -6,6 +6,7 @@ set hls_src_files [list execute.cpp \
 	type.cpp \
 	immediate.cpp \
 	print.cpp \
+	float.cpp \
 	emulate.cpp
 ]
 set testbench_files [list test_bench_rv32i_npp_ip.cpp ]

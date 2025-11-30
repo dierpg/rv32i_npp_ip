@@ -23,6 +23,12 @@ static void write_reg(
      !d_i.is_branch &&
      !d_i.is_store)
     reg_file[d_i.rd] = result;
+  /*
+  if(d_i.is_csr){
+    reg_file[d_i.rs1] = reg_file[d_i.rd];
+    reg_file[d_i.rd] = result;
+    return;
+  }*/
 }
 static bit_t compute_branch_result(
   int     rv1,
@@ -47,10 +53,8 @@ static int compute_op_result(
   bit_t      f7_6 = d_i.func7>>5;
   ap_uint<5> shift;
   int        result;
-  if (d_i.is_r_type)
-    shift = rv2;
-  else//I_TYPE
-    shift = d_i.rs2;
+
+  shift = rv2;
   switch(d_i.func3){
     case ADD : if (d_i.is_r_type && f7_6)
                  result = rv1 - rv2;//SUB
@@ -86,6 +90,7 @@ static int compute_result(
   code_address_t pc4   = pc<<2;
   code_address_t npc4  = pc4 + 4;
   int            result;
+
   switch(d_i.type){
     case R_TYPE:
       result = compute_op_result(rv1, rv2, d_i);
@@ -250,8 +255,32 @@ void execute(
   code_address_t       *next_pc){
   int              rv1, rv2, result;
   b_data_address_t address;
+
   read_reg(reg_file, d_i.rs1, d_i.rs2, &rv1, &rv2);
-  result  = compute_result(rv1, rv2, d_i, pc);
+// CSR instructions used for FCSR
+	if(d_i.is_csr){
+    switch(d_i.func3){
+      case CSRRW:
+				reg_file[d_i.rs1] = rv2;
+				reg_file[d_i.rs2] = rv1;
+				reg_file[d_i.rd] = ((d_i.func7 << 7) | (d_i.rs2 << 5) >> 20);
+      	break;
+
+      case CSRRS:
+        result = reg_file[d_i.rd];
+        reg_file[d_i.rd] = result | rv1;
+        break;
+      case CSRRC:
+        result = reg_file[d_i.rd];
+        reg_file[d_i.rd] = result & (~rv1);
+        break;
+     	default:
+        result = 0;
+        break;
+    }
+  }else {
+  	result = compute_result(rv1, rv2, d_i, pc);
+	}
   address = result;
   if (d_i.is_store)
     mem_store(data_ram, address, rv2, (ap_uint<2>)d_i.func3);
